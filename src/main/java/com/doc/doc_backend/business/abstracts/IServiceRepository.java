@@ -1,0 +1,19 @@
+package com.doc.doc_backend.business.abstracts;
+
+import com.doc.doc_backend.results.DataResult;
+import com.doc.doc_backend.results.Result;
+
+import java.util.List;
+
+public interface IServiceRepository<T> {
+
+    DataResult<T> add(T entity);
+
+    Result update(T entity);
+
+    Result delete(T entity);
+
+    DataResult<T> getById(int id);
+
+    DataResult<List<T>> getAll();
+}
