@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.util.Date;
 @AllArgsConstructor
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "news")
 public class News implements IEntity {
@@ -19,9 +20,6 @@ public class News implements IEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "news_id")
     private int news_id;
-    @Column(name = "id")
-    private int id;
-
     //private ArrayList<String> liked;
 
     //private ArrayList<String> disliked;

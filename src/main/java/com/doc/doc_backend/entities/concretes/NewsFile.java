@@ -22,7 +22,7 @@ public class NewsFile implements IEntity {
     @Column(name = "news_id")
     private int news_id;
 
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "news_id")
     @ManyToMany
     private News news;
 }

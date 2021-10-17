@@ -19,8 +19,8 @@ public class User implements IEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private String id;
+    @Column(name = "user_id")
+    private String user_id;
 
     @Column(name = "first_name")
     private String first_name;
