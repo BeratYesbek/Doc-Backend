@@ -1,9 +1,9 @@
 package com.doc.doc_backend.business.concretes;
 
 import com.doc.doc_backend.business.abstracts.IUserService;
+import com.doc.doc_backend.core.utilities.concretes.*;
 import com.doc.doc_backend.dataAccess.abstracts.IUserDao;
 import com.doc.doc_backend.entities.concretes.User;
-import com.doc.doc_backend.results.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

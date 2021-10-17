@@ -1,7 +1,9 @@
 package com.doc.doc_backend.business.abstracts;
 
-import com.doc.doc_backend.results.DataResult;
-import com.doc.doc_backend.results.Result;
+
+
+import com.doc.doc_backend.core.utilities.concretes.DataResult;
+import com.doc.doc_backend.core.utilities.concretes.Result;
 
 import java.util.List;
 

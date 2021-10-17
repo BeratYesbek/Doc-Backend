@@ -1,12 +1,13 @@
 package com.doc.doc_backend.business.concretes;
 
 import com.doc.doc_backend.business.abstracts.INewsService;
+import com.doc.doc_backend.core.utilities.concretes.DataResult;
+import com.doc.doc_backend.core.utilities.concretes.ErrorDataResult;
+import com.doc.doc_backend.core.utilities.concretes.Result;
+import com.doc.doc_backend.core.utilities.concretes.SuccessDataResult;
 import com.doc.doc_backend.dataAccess.abstracts.INewsDao;
 import com.doc.doc_backend.entities.concretes.News;
-import com.doc.doc_backend.results.DataResult;
-import com.doc.doc_backend.results.ErrorDataResult;
-import com.doc.doc_backend.results.Result;
-import com.doc.doc_backend.results.SuccessDataResult;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
