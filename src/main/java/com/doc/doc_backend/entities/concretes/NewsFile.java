@@ -9,15 +9,15 @@ import javax.persistence.*;
 
 @AllArgsConstructor
 @Data
-@Table(name = "news_images")
-public class NewsImage implements IEntity {
+@Table(name = "news_files")
+public class NewsFile implements IEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "news_image_id")
-    private int news_image_id;
+    @Column(name = "news_file_id")
+    private int news_file_id;
 
-    @Column(name = "image_path")
-    private String image_path;
+    @Column(name = "file_path")
+    private String file_path;
 
     @Column(name = "news_id")
     private int news_id;
