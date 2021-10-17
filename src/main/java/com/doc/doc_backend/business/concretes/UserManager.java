@@ -13,6 +13,7 @@ import java.util.List;
 public class UserManager implements IUserService {
 
     private IUserDao userDao;
+    private int count;
 
     @Autowired
     public UserManager(IUserDao userDao) {
