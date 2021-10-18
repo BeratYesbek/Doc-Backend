@@ -1,6 +1,7 @@
 package com.doc.doc_backend.entities.concretes;
 
 import com.doc.doc_backend.entities.abstracts.IEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
+
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
@@ -20,9 +23,6 @@ public class News implements IEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "news_id")
     private int news_id;
-    //private ArrayList<String> liked;
-
-    //private ArrayList<String> disliked;
 
     @Column(name = "published_date")
     private Date published_date;
@@ -36,6 +36,18 @@ public class News implements IEntity {
     @JoinColumn(name = "user_id")
     @ManyToOne
     private User user;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "news")
+    private List<NewsFile> newsFiles;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "news")
+    private List<Like> likes;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "news")
+    private List<Dislike> dislikes;
 
 
 }

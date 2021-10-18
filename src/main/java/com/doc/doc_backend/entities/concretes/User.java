@@ -20,7 +20,7 @@ public class User implements IEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private String user_id;
+    private int user_id;
 
     @Column(name = "first_name")
     private String first_name;
@@ -34,4 +34,12 @@ public class User implements IEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<News> news;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Like> likes;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Dislike> dislikes;
 }

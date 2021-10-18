@@ -5,24 +5,26 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.GenerationType;
 import javax.persistence.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Entity
-@Table(name = "news_files")
-public class NewsFile implements IEntity {
+@Table(name = "likes")
+@AllArgsConstructor
+@NoArgsConstructor
+public class Like implements IEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "news_file_id")
-    private int news_file_id;
+    @Column(name = "like_id")
+    private int like_id;
 
-    @Column(name = "file_path")
-    private String file_path;
-
-    @JoinColumn(name = "news_id")
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "news_id")
     private News news;
+
 }
