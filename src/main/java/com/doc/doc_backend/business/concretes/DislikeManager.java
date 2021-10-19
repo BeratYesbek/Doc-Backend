@@ -2,13 +2,16 @@ package com.doc.doc_backend.business.concretes;
 
 import com.doc.doc_backend.business.abstracts.IDislikeService;
 import com.doc.doc_backend.core.utilities.concretes.DataResult;
+import com.doc.doc_backend.core.utilities.concretes.ErrorDataResult;
 import com.doc.doc_backend.core.utilities.concretes.Result;
+import com.doc.doc_backend.core.utilities.concretes.SuccessDataResult;
 import com.doc.doc_backend.dataAccess.abstracts.IDislikeDao;
 import com.doc.doc_backend.entities.concretes.Dislike;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class DislikeManager implements IDislikeService {
 
@@ -21,7 +24,11 @@ public class DislikeManager implements IDislikeService {
 
     @Override
     public DataResult<Dislike> add(Dislike entity) {
-        return null;
+        Dislike dislike = dislikeDao.save(entity);
+        if (dislike != null) {
+            return new SuccessDataResult(dislike);
+        }
+        return new ErrorDataResult(null);
     }
 
     @Override

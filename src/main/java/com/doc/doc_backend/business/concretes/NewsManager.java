@@ -1,10 +1,7 @@
 package com.doc.doc_backend.business.concretes;
 
 import com.doc.doc_backend.business.abstracts.INewsService;
-import com.doc.doc_backend.core.utilities.concretes.DataResult;
-import com.doc.doc_backend.core.utilities.concretes.ErrorDataResult;
-import com.doc.doc_backend.core.utilities.concretes.Result;
-import com.doc.doc_backend.core.utilities.concretes.SuccessDataResult;
+import com.doc.doc_backend.core.utilities.concretes.*;
 import com.doc.doc_backend.dataAccess.abstracts.INewsDao;
 import com.doc.doc_backend.entities.concretes.News;
 
@@ -34,21 +31,28 @@ public class NewsManager implements INewsService {
 
     @Override
     public Result update(News entity) {
-        return null;
+        newsDao.save(entity);
+        return new SuccessResult("News has been updated successfully");
     }
 
     @Override
     public Result delete(News entity) {
-        return null;
+        newsDao.delete(entity);
+        return new SuccessResult("News has ben deleted successfully");
     }
 
     @Override
     public DataResult<News> getById(int id) {
-        return null;
+        News news = newsDao.findById(id).get();
+        if (news != null) {
+            return new SuccessDataResult(news);
+        }
+        return new ErrorDataResult(null);
     }
 
     @Override
     public DataResult<List<News>> getAll() {
-        return null;
+        List<News> news = newsDao.findAll();
+        return new SuccessDataResult(news);
     }
 }

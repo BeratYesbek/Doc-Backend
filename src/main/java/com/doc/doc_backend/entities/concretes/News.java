@@ -2,6 +2,8 @@ package com.doc.doc_backend.entities.concretes;
 
 import com.doc.doc_backend.entities.abstracts.IEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,15 +39,15 @@ public class News implements IEntity {
     @ManyToOne
     private User user;
 
-    @JsonIgnore
+    @JsonManagedReference
     @OneToMany(mappedBy = "news")
     private List<NewsFile> newsFiles;
 
-    @JsonIgnore
+    @JsonManagedReference
     @OneToMany(mappedBy = "news")
     private List<Like> likes;
 
-    @JsonIgnore
+    @JsonManagedReference
     @OneToMany(mappedBy = "news")
     private List<Dislike> dislikes;
 
