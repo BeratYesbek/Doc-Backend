@@ -51,5 +51,8 @@ public class News implements IEntity {
     @OneToMany(mappedBy = "news")
     private List<Dislike> dislikes;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "news")
+    private List<Comment> comments;
 
 }

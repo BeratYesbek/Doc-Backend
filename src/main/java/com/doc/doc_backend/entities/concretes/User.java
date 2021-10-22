@@ -42,4 +42,9 @@ public class User implements IEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Dislike> dislikes;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
+
 }
