@@ -19,24 +19,29 @@
         <spring-native.version>0.10.4</spring-native.version>
     </properties>
     <dependencies>
+
+
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
-<<<<<<< HEAD
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.cloudinary</groupId>
+            <artifactId>cloudinary-http44</artifactId>
+            <version>1.29.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-=======
             <artifactId>spring-boot-starter</artifactId>
->>>>>>> 30349c71e9b5ff0b36891f0a5a7454a7b7c6cd82
         </dependency>
         <dependency>
             <groupId>org.springframework.experimental</groupId>
             <artifactId>spring-native</artifactId>
             <version>${spring-native.version}</version>
         </dependency>
-<<<<<<< HEAD
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
@@ -57,19 +62,16 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.9.2</version>
         </dependency>
-=======
 
->>>>>>> 30349c71e9b5ff0b36891f0a5a7454a7b7c6cd82
+
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-<<<<<<< HEAD
-=======
 
->>>>>>> 30349c71e9b5ff0b36891f0a5a7454a7b7c6cd82
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -90,14 +92,17 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-<<<<<<< HEAD
-=======
+
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.2.6</version>
         </dependency>
->>>>>>> 30349c71e9b5ff0b36891f0a5a7454a7b7c6cd82
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>8.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -140,7 +145,6 @@
                     </execution>
                 </executions>
             </plugin>
-<<<<<<< HEAD
             <plugin>
                 <groupId>org.hibernate.orm.tooling</groupId>
                 <artifactId>hibernate-enhance-maven-plugin</artifactId>
@@ -161,8 +165,7 @@
                     </execution>
                 </executions>
             </plugin>
-=======
->>>>>>> 30349c71e9b5ff0b36891f0a5a7454a7b7c6cd82
+
         </plugins>
     </build>
     <repositories>

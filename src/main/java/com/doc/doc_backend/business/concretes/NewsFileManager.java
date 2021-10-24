@@ -2,11 +2,14 @@ package com.doc.doc_backend.business.concretes;
 
 import com.doc.doc_backend.business.abstracts.INewsFileService;
 import com.doc.doc_backend.core.utilities.concretes.*;
+import com.doc.doc_backend.core.utilities.fileHelper.FileExtension;
+import com.doc.doc_backend.core.utilities.fileHelper.FileHelperService;
 import com.doc.doc_backend.dataAccess.abstracts.INewsFileDao;
 import com.doc.doc_backend.entities.concretes.News;
 import com.doc.doc_backend.entities.concretes.NewsFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,6 +21,19 @@ public class NewsFileManager implements INewsFileService {
     @Autowired
     public NewsFileManager(INewsFileDao newsFileDao) {
         this.newsFileDao = newsFileDao;
+    }
+
+    @Override
+    public DataResult add(NewsFile newsFile, MultipartFile[] multipartFiles) {
+        for (MultipartFile file : multipartFiles) {
+            Result result = new FileHelperService.FileHelper(FileExtension.image_extensions).add(file);
+            if (!result.isSuccess()){
+                return new ErrorDataResult(null,result.getMessage());
+            }
+            newsFile.setFile_path(result.getMessage());
+            newsFileDao.save(newsFile);
+        }
+        return new SuccessDataResult(newsFile);
     }
 
     @Override
@@ -51,4 +67,6 @@ public class NewsFileManager implements INewsFileService {
     public DataResult<List<NewsFile>> getAll() {
         return new SuccessDataResult(newsFileDao.findAll());
     }
+
+
 }
