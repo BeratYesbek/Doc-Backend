@@ -25,6 +25,6 @@ public class NewsFile implements IEntity {
 
     @JoinColumn(name = "news_id")
     @ManyToOne
-    @JsonBackReference
+    //@JsonBackReference
     private News news;
 }

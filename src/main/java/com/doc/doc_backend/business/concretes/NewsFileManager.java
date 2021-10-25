@@ -27,18 +27,40 @@ public class NewsFileManager implements INewsFileService {
     public DataResult add(NewsFile newsFile, MultipartFile[] multipartFiles) {
         for (MultipartFile file : multipartFiles) {
             Result result = new FileHelperService.FileHelper(FileExtension.image_extensions).add(file);
-            if (!result.isSuccess()){
-                return new ErrorDataResult(null,result.getMessage());
+            if (!result.isSuccess()) {
+                return new ErrorDataResult(null, result.getMessage());
             }
-            newsFile.setFile_path(result.getMessage());
-            newsFileDao.save(newsFile);
+
+            NewsFile addedNewsFile = new NewsFile(0, result.getMessage(), newsFile.getNews());
+            newsFileDao.save(addedNewsFile);
         }
         return new SuccessDataResult(newsFile);
     }
 
     @Override
-    public DataResult<NewsFile> add(NewsFile entity) {
-        NewsFile newsFile = newsFileDao.save(entity);
+    public Result update(NewsFile[] newsFile, MultipartFile[] multipartFiles) {
+        for (int i = 0; i < multipartFiles.length; i++) {
+            Result result = new FileHelperService.FileHelper(FileExtension.image_extensions).add(multipartFiles[i]);
+            if (!result.isSuccess()) {
+                return new ErrorDataResult(null, result.getMessage());
+            }
+            newsFileDao.save(newsFile[i]);
+        }
+        return null;
+    }
+
+    @Override
+    public Result delete(NewsFile[] newsFiles) {
+
+        for (NewsFile newsFile : newsFiles) {
+            newsFileDao.delete(newsFile);
+        }
+        return null;
+    }
+
+    @Override
+    public DataResult<NewsFile> getById(int id) {
+        NewsFile newsFile = newsFileDao.getById(id);
         if (newsFile != null) {
             return new SuccessDataResult(newsFile);
         }
@@ -46,26 +68,12 @@ public class NewsFileManager implements INewsFileService {
     }
 
     @Override
-    public Result update(NewsFile entity) {
-        newsFileDao.save(entity);
-        return new SuccessResult("");
-
-    }
-
-    @Override
-    public Result delete(NewsFile entity) {
-        newsFileDao.delete(entity);
-        return new SuccessResult("");
-    }
-
-    @Override
-    public DataResult<NewsFile> getById(int id) {
-        return new SuccessDataResult(newsFileDao.findById(id));
-    }
-
-    @Override
     public DataResult<List<NewsFile>> getAll() {
-        return new SuccessDataResult(newsFileDao.findAll());
+        List<NewsFile> newsFileList = newsFileDao.findAll();
+        if (newsFileList.size() > 0) {
+            return new SuccessDataResult(newsFileList);
+        }
+        return new ErrorDataResult(null);
     }
 
 

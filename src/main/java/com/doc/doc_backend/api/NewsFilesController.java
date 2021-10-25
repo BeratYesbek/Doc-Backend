@@ -4,20 +4,22 @@ import com.doc.doc_backend.business.abstracts.INewsFileService;
 import com.doc.doc_backend.core.utilities.concretes.DataResult;
 import com.doc.doc_backend.core.utilities.concretes.Result;
 import com.doc.doc_backend.core.utilities.concretes.SuccessDataResult;
-import com.doc.doc_backend.core.utilities.fileHelper.FileExtension;
-import com.doc.doc_backend.core.utilities.fileHelper.FileHelperService;
-import com.doc.doc_backend.core.utilities.fileHelper.IFileHelperService;
+
 import com.doc.doc_backend.entities.concretes.News;
 import com.doc.doc_backend.entities.concretes.NewsFile;
-import com.doc.doc_backend.entities.dtos.NewsFileDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.tomcat.util.json.JSONParser;
+import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/news_files")
@@ -37,15 +39,24 @@ public class NewsFilesController {
         news.setNews_id(news_id);
         newsFile.setNews(news);
 
-        newsFileService.add(newsFile,multipartFiles);
+        newsFileService.add(newsFile, multipartFiles);
         return new SuccessDataResult(null);
     }
 
-    private Result update(@RequestParam NewsFileDto newsFileDto) {
+    @PostMapping("/update")
+    private Result update(@RequestParam MultipartFile[] multipartFiles, @RequestParam String newsFile) throws JSONException, ParseException {
+        JSONParser parser = new JSONParser(newsFile);
+        JSONObject json = (JSONObject) parser.parse();
+
+        JSONArray array = new JSONArray(newsFile);
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject object = array.getJSONObject(i);
+            System.out.println("dsa");
+        }
         return null;
     }
 
-    private Result delete(@RequestParam NewsFileDto newsFileDto) {
+    private Result delete(@RequestParam NewsFile newsFile) {
         return null;
     }
 }
