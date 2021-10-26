@@ -46,7 +46,7 @@ public class NewsFileManager implements INewsFileService {
             }
             newsFileDao.save(newsFile[i]);
         }
-        return null;
+        return new SuccessResult("Images has been added successfully");
     }
 
     @Override
@@ -55,7 +55,7 @@ public class NewsFileManager implements INewsFileService {
         for (NewsFile newsFile : newsFiles) {
             newsFileDao.delete(newsFile);
         }
-        return null;
+        return new SuccessResult("Image has been deleted successfully");
     }
 
     @Override
