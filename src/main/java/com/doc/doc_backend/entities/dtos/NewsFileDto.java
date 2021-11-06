@@ -8,15 +8,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class NewsFileDto {
 
-    //private int id;
-
-    // private int news_id;
 
     private String newsFile;
 
-    //private String file_path;
-
-    private MultipartFile[] multipartFile;
+    public MultipartFile[] multipartFiles;
 
     public String getNewsFile() {
         return newsFile;
@@ -27,10 +22,10 @@ public class NewsFileDto {
     }
 
     public MultipartFile[] getMultipartFile() {
-        return multipartFile;
+        return multipartFiles;
     }
 
     public void setMultipartFile(MultipartFile[] multipartFile) {
-        this.multipartFile = multipartFile;
+        this.multipartFiles = multipartFile;
     }
 }

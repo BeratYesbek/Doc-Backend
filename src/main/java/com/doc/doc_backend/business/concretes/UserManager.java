@@ -1,32 +1,63 @@
 package com.doc.doc_backend.business.concretes;
 
+import com.doc.doc_backend.business.abstracts.IUserOperationClaimService;
 import com.doc.doc_backend.business.abstracts.IUserService;
+import com.doc.doc_backend.core.entities.UserOperationClaim;
 import com.doc.doc_backend.core.utilities.concretes.*;
 import com.doc.doc_backend.dataAccess.abstracts.IUserDao;
 import com.doc.doc_backend.entities.concretes.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
-public class UserManager implements IUserService {
+@Slf4j
+public class UserManager implements IUserService, UserDetailsService {
 
     private IUserDao userDao;
-    private int count;
+    private IUserOperationClaimService userOperationClaimService;
+    private final PasswordEncoder passwordEncoder;
+    private IUserService userService;
 
     @Autowired
-    public UserManager(IUserDao userDao) {
+    public UserManager(IUserDao userDao, IUserOperationClaimService userOperationClaimService, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
+        this.userOperationClaimService = userOperationClaimService;
+        this.passwordEncoder = passwordEncoder;
+
+    }
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        User user = userDao.findByEmail(username);
+
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        ArrayList<String> userOperationClaims = new ArrayList<>();
+        userOperationClaims.add("Admin");
+        userOperationClaims.forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role));
+        });
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
 
     @Override
     public DataResult<User> add(User entity) {
-       User user = userDao.save(entity);
-       if (user != null){
-           return new SuccessDataResult(user,"User has been added successfully");
-       }
-        return new ErrorDataResult(null,"User has not been added successfully");
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        User user = userDao.save(entity);
+        if (user != null) {
+            return new SuccessDataResult(user, "User has been added successfully");
+        }
+        return new ErrorDataResult(null, "User has not been added successfully");
     }
 
     @Override
@@ -48,6 +79,12 @@ public class UserManager implements IUserService {
 
     @Override
     public DataResult<List<User>> getAll() {
-        return null;
+        return new SuccessDataResult(userDao.findAll());
+    }
+
+
+    @Override
+    public DataResult<User> findByEmail(String email) {
+        return new SuccessDataResult(this.userDao.findByEmail(email));
     }
 }

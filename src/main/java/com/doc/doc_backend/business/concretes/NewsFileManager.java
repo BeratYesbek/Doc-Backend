@@ -1,22 +1,20 @@
 package com.doc.doc_backend.business.concretes;
-
 import com.doc.doc_backend.business.abstracts.INewsFileService;
 import com.doc.doc_backend.core.utilities.concretes.*;
 import com.doc.doc_backend.core.utilities.fileHelper.FileExtension;
 import com.doc.doc_backend.core.utilities.fileHelper.FileHelperService;
 import com.doc.doc_backend.dataAccess.abstracts.INewsFileDao;
-import com.doc.doc_backend.entities.concretes.News;
 import com.doc.doc_backend.entities.concretes.NewsFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 
 @Service
 public class NewsFileManager implements INewsFileService {
 
     private INewsFileDao newsFileDao;
+    private FileHelperService fileHelperService = new FileHelperService();
 
     @Autowired
     public NewsFileManager(INewsFileDao newsFileDao) {
@@ -44,6 +42,7 @@ public class NewsFileManager implements INewsFileService {
             if (!result.isSuccess()) {
                 return new ErrorDataResult(null, result.getMessage());
             }
+            newsFile[i].setFile_path(result.getMessage());
             newsFileDao.save(newsFile[i]);
         }
         return new SuccessResult("Images has been added successfully");

@@ -3,6 +3,7 @@ package com.doc.doc_backend;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -17,6 +18,10 @@ public class DocBackendApplication {
         SpringApplication.run(DocBackendApplication.class, args);
     }
 
+    @Bean
+    BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)

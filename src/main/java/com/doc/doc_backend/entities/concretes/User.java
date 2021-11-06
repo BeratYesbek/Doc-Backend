@@ -22,28 +22,34 @@ public class User implements IEntity {
     @Column(name = "user_id")
     private int user_id;
 
+    @Column(name = "email")
+    private String email;
+
+    private String username;
+
     @Column(name = "first_name")
     private String first_name;
 
     @Column(name = "last_name")
     private String last_name;
 
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "date_of_birth")
     private Date date_of_birth;
 
-    @JsonIgnore
+
+    /*----------------------------------------------------------------------------------------------------------------*/
     @OneToMany(mappedBy = "user")
     private List<News> news;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Like> likes;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Dislike> dislikes;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Comment> comments;
 

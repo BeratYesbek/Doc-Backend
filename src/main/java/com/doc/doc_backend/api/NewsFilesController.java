@@ -1,28 +1,13 @@
 package com.doc.doc_backend.api;
-
 import com.doc.doc_backend.business.abstracts.INewsFileService;
 import com.doc.doc_backend.core.utilities.concretes.DataResult;
 import com.doc.doc_backend.core.utilities.concretes.Result;
-import com.doc.doc_backend.core.utilities.concretes.SuccessDataResult;
-
-import com.doc.doc_backend.entities.concretes.News;
 import com.doc.doc_backend.entities.concretes.NewsFile;
-import com.doc.doc_backend.entities.dtos.NewsFileDto;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import org.apache.tomcat.util.json.JSONParser;
-import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/news_files")
@@ -36,20 +21,20 @@ public class NewsFilesController {
     }
 
     @PostMapping("/add")
-    private DataResult add(@ModelAttribute NewsFileDto newsFileDto) throws IOException {
+    private DataResult add(@RequestParam String newsFiles, @RequestParam MultipartFile[] multipartFiles)  {
 
-        NewsFile newsFile = new Gson().fromJson(newsFileDto.getNewsFile(), NewsFile.class);
-        return newsFileService.add(newsFile, newsFileDto.getMultipartFile());
+        NewsFile newsFile = new Gson().fromJson(newsFiles, NewsFile.class);
+        return newsFileService.add(newsFile, multipartFiles);
     }
 
     @PostMapping("/update")
-    private Result update(@ModelAttribute NewsFileDto newsFileDto) {
-        NewsFile[] newsFile = new Gson().fromJson(newsFileDto.getNewsFile(), NewsFile[].class);
-        return newsFileService.update(newsFile, newsFileDto.getMultipartFile());
+    private Result update(@RequestParam String newsFiles, @RequestParam MultipartFile[] multipartFiles) {
+        NewsFile[] newsFile = new Gson().fromJson(newsFiles, NewsFile[].class);
+        return newsFileService.update(newsFile, multipartFiles);
     }
 
     @PostMapping("/delete")
-    private Result delete(@RequestParam NewsFile[] newsFile) {
+    private Result delete(@RequestBody NewsFile[] newsFile) {
         return newsFileService.delete(newsFile);
     }
 

@@ -1,23 +1,12 @@
 package com.doc.doc_backend.core.utilities.fileHelper;
-
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.doc.doc_backend.core.utilities.concretes.ErrorResult;
 import com.doc.doc_backend.core.utilities.concretes.Result;
 import com.doc.doc_backend.core.utilities.concretes.SuccessResult;
-import com.doc.doc_backend.core.utilities.firebase.InitializeFirebase;
-import com.google.cloud.ReadChannel;
-import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.Bucket;
-import com.google.firebase.cloud.StorageClient;
 import lombok.SneakyThrows;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.InputStream;
-import java.nio.channels.Channel;
-import java.nio.channels.Channels;
 import java.util.Map;
-import java.util.UUID;
 
 
 public class FileHelperService {
@@ -25,15 +14,22 @@ public class FileHelperService {
     public static class FileHelper {
         private static String[] fileExtensions;
         private static Cloudinary cloudinary;
+        private static Map<String, Object> optionsMap;
 
         @SneakyThrows
         public FileHelper(String[] fileExtensions) {
+            optionsMap = ObjectUtils.asMap(
+                    "cloud_name", "afteb",
+                    "api_key", "263478243847123",
+                    "api_secret", "TnN1Q8Tli3DcTZ-qDXw5zgZWid8"
+            );
             cloudinary = new Cloudinary(ObjectUtils.asMap(
                     "cloud_name", "afteb",
-                    "api_key","263478243847123",
-                    "api_secret","TnN1Q8Tli3DcTZ-qDXw5zgZWid8"
-                    ));
+                    "api_key", "263478243847123",
+                    "api_secret", "TnN1Q8Tli3DcTZ-qDXw5zgZWid8"
+            ));
             this.fileExtensions = fileExtensions;
+
         }
 
         @SneakyThrows
@@ -42,10 +38,16 @@ public class FileHelperService {
             if (!result.isSuccess()) {
                 return result;
             }
-            Map<String,Object> resultMap = cloudinary.uploader().upload(file.getBytes(),ObjectUtils.emptyMap());
+            Map<String, Object> resultMap = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
             String url = resultMap.get("secure_url").toString();
 
             return new SuccessResult(url);
+        }
+
+        @SneakyThrows
+        public static Result delete(String path) {
+            cloudinary.uploader().destroy(path,optionsMap);
+            return new SuccessResult();
         }
 
         private static Result checkFileExtension(MultipartFile file) {

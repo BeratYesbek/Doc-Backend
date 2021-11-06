@@ -5,10 +5,9 @@ import com.doc.doc_backend.entities.concretes.User;
 import com.doc.doc_backend.core.utilities.concretes.DataResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -25,8 +24,12 @@ public class UsersController {
 
     //www.doc.com/api/users/add
     @PostMapping("/add")
-    public DataResult<User> add(@RequestBody User user){
+    public DataResult<User> add(@RequestBody User user) {
         return userService.add(user);
     }
 
+    @GetMapping("/getAll")
+    public DataResult<List<User>> getAll() {
+        return userService.getAll();
+    }
 }
