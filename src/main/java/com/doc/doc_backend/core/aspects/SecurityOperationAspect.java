@@ -55,6 +55,7 @@ public class SecurityOperationAspect {
         for (String value : security) {
             if (roles.contains(value)) {
                 return;
+
             }
         }
         throw new Exception("You have no auth");
