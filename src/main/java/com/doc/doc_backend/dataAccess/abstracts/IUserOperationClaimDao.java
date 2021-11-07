@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface IUserOperationClaimDao extends JpaRepository<UserOperationClaim, Integer> {
-    List<UserOperationClaim> findByUser (int user_id);
+    //List<UserOperationClaim> findAllByIdOrUserId(int id,int user_id);
+    List<UserOperationClaim> getUserOperationClaimByUserUserId(int user_id);
 }

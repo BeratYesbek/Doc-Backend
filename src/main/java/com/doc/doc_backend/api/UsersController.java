@@ -1,7 +1,7 @@
 package com.doc.doc_backend.api;
 
 import com.doc.doc_backend.business.abstracts.IUserService;
-import com.doc.doc_backend.entities.concretes.User;
+import com.doc.doc_backend.core.entities.User;
 import com.doc.doc_backend.core.utilities.concretes.DataResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

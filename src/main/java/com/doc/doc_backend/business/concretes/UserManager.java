@@ -2,16 +2,15 @@ package com.doc.doc_backend.business.concretes;
 
 import com.doc.doc_backend.business.abstracts.IUserOperationClaimService;
 import com.doc.doc_backend.business.abstracts.IUserService;
-import com.doc.doc_backend.core.entities.UserOperationClaim;
+import com.doc.doc_backend.core.annotations.SecurityOperation;
 import com.doc.doc_backend.core.utilities.concretes.*;
 import com.doc.doc_backend.dataAccess.abstracts.IUserDao;
-import com.doc.doc_backend.entities.concretes.User;
+import com.doc.doc_backend.core.entities.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,9 +43,11 @@ public class UserManager implements IUserService, UserDetailsService {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         ArrayList<String> userOperationClaims = new ArrayList<>();
         userOperationClaims.add("Admin");
-        userOperationClaims.forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role));
+
+        userOperationClaimService.findByUserId(user.getUserId()).forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getOperationClaim().getName()));
         });
+
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
 
@@ -78,6 +79,7 @@ public class UserManager implements IUserService, UserDetailsService {
     }
 
     @Override
+    @SecurityOperation(security = {"User"})
     public DataResult<List<User>> getAll() {
         return new SuccessDataResult(userDao.findAll());
     }

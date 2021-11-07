@@ -1,5 +1,6 @@
 package com.doc.doc_backend.entities.concretes;
 
+import com.doc.doc_backend.core.entities.User;
 import com.doc.doc_backend.entities.abstracts.IEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;

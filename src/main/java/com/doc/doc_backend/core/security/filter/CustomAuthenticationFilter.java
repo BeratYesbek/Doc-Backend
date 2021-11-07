@@ -7,6 +7,7 @@ import com.doc.doc_backend.business.abstracts.IUserService;
 import com.doc.doc_backend.business.concretes.UserManager;
 import com.doc.doc_backend.business.concretes.UserOperationClaimManager;
 import com.doc.doc_backend.core.entities.UserOperationClaim;
+import com.doc.doc_backend.core.security.jwt.JwtHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,29 +54,12 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         org.springframework.security.core.userdetails.User user = (User) authResult.getPrincipal();
 
-        Algorithm algorithm = Algorithm.HMAC512("my_secret_key_my_secret_key565498498498499487".getBytes());
-        String access_token = JWT.create()
-                .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
-                .withIssuer(request.getRequestURL().toString())
-                .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                .sign(algorithm);
-        /*
-        String refresh_token = JWT.create()
-                .withSubject(user.getUsername())
-                .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
-                .withIssuer(request.getRequestURL().toString())
-                //.withClaim("roles", "")
-                .sign(algorithm);*/
-
+        String access_token = JwtHelper.createToken(user, request.getRequestURL().toString());
         response.setHeader("access_token", access_token);
-
         Map<String, String> tokens = new HashMap<>();
         tokens.put("access_token", access_token);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-        //response.setHeader("refresh_token", refresh_token);
 
     }
 

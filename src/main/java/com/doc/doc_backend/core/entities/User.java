@@ -1,6 +1,10 @@
-package com.doc.doc_backend.entities.concretes;
+package com.doc.doc_backend.core.entities;
 
 import com.doc.doc_backend.entities.abstracts.IEntity;
+import com.doc.doc_backend.entities.concretes.Comment;
+import com.doc.doc_backend.entities.concretes.Dislike;
+import com.doc.doc_backend.entities.concretes.Like;
+import com.doc.doc_backend.entities.concretes.News;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +24,7 @@ public class User implements IEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int user_id;
+    private int userId;
 
     @Column(name = "email")
     private String email;
@@ -52,5 +56,8 @@ public class User implements IEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserOperationClaim> userOperationClaims;
 
 }

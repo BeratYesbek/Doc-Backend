@@ -11,7 +11,7 @@ public class Authorization {
         http.authorizeRequests().antMatchers(HttpMethod.POST, EndPoints.DISLIKES_ALL_END_POINTS).hasAnyAuthority(Role.USER_ROLE);
         http.authorizeRequests().antMatchers(HttpMethod.POST, EndPoints.LIKES_ALL_END_POINTS).hasAnyAuthority(Role.USER_ROLE);
         http.authorizeRequests().antMatchers(HttpMethod.POST, EndPoints.NEWS_FILES_ALL_END_POINTS).hasAnyAuthority(Role.USER_ROLE);
-        http.authorizeRequests().antMatchers(HttpMethod.POST, EndPoints.USERS_ALL_END_POINTS).hasAnyAuthority(Role.USER_ROLE);
+        //http.authorizeRequests().antMatchers(HttpMethod.POST, EndPoints.USERS_ALL_END_POINTS).hasAnyAuthority(Role.USER_ROLE);
         http.authorizeRequests().antMatchers(HttpMethod.POST, EndPoints.NEWS_ALL_END_POINTS).hasAnyAuthority(Role.USER_ROLE);
     }
 }

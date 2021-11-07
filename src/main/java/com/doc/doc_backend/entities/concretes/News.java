@@ -1,8 +1,8 @@
 package com.doc.doc_backend.entities.concretes;
 
+import com.doc.doc_backend.core.entities.User;
 import com.doc.doc_backend.entities.abstracts.IEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
