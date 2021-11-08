@@ -7,10 +7,13 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
 
@@ -27,12 +30,17 @@ public class News implements IEntity {
     private int news_id;
 
     @Column(name = "published_date")
+    @NotBlank
     private Date published_date;
 
     @Column(name = "description")
+    @Length(min = 100, max = 500)
+    @NotBlank
     private String description;
 
     @Column(name = "source_link")
+    @NotBlank
+    @URL
     private String source_link;
 
     @JoinColumn(name = "user_id")

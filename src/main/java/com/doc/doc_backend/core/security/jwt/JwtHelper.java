@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class JwtHelper {
     public static String createToken(User user, String url) {
-        Algorithm algorithm = Algorithm.HMAC512("my_secret_key_my_secret_key565498498498499487".getBytes());
+        Algorithm algorithm = Algorithm.HMAC512(TokenOptions.secretKey.getBytes());
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis()))
@@ -26,7 +26,7 @@ public class JwtHelper {
     }
 
     public static DecodedJWT decodeJwtAndGetClaims(String token) {
-        Algorithm algorithm = Algorithm.HMAC512("my_secret_key_my_secret_key565498498498499487".getBytes());
+        Algorithm algorithm = Algorithm.HMAC512(TokenOptions.secretKey.getBytes());
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT decodedJWT = verifier.verify(token);
         return decodedJWT;

@@ -41,12 +41,12 @@ public class SecurityOperationFilter extends OncePerRequestFilter {
             String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
 
 
-         /* Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+          Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
             stream(roles).forEach(role -> {
                 authorities.add(new SimpleGrantedAuthority(role));
             });
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, null, authorities);
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);*/
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             filterChain.doFilter(request, response);
         }
 

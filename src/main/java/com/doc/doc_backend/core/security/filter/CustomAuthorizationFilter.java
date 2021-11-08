@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.doc.doc_backend.core.security.SecurityConfig;
+import com.doc.doc_backend.core.security.jwt.JwtHelper;
 import com.doc.doc_backend.core.utilities.concretes.ErrorResult;
 import com.doc.doc_backend.core.utilities.concretes.Result;
 import com.doc.doc_backend.core.utilities.concretes.SuccessResult;
@@ -43,23 +44,21 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 try {
                     String token = authorizationHeader.substring("Bearer ".length());
-                    Algorithm algorithm = Algorithm.HMAC512("my_secret_key_my_secret_key565498498498499487".getBytes());
-                    JWTVerifier verifier = JWT.require(algorithm).build();
-                    DecodedJWT decodedJWT = verifier.verify(token);
-                    
-                    String email = decodedJWT.getSubject();
-                    String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
-                    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                    stream(roles).forEach(role -> {
-                        authorities.add(new SimpleGrantedAuthority(role));
-                    });
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, null, authorities);
-                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                    filterChain.doFilter(request, response);
+                    DecodedJWT decodedJWT = JwtHelper.decodeJwtAndGetClaims(token);
+                    if (decodedJWT != null) {
+                        String email = decodedJWT.getSubject();
+                        String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
+                        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+                        stream(roles).forEach(role -> {
+                            authorities.add(new SimpleGrantedAuthority(role));
+                        });
+                        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(email, null, authorities);
+                        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                        filterChain.doFilter(request, response);
+                    }
                 } catch (Exception e) {
                     response.setHeader("error", e.getMessage());
                     response.setStatus(FORBIDDEN.value());
-                    //response.sendError(FORBIDDEN.value());
                     Map<String, String> error = new HashMap<>();
                     error.put("error_message", e.getMessage());
                     response.setContentType(APPLICATION_JSON_VALUE);
